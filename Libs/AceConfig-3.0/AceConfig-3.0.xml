@@ -1,0 +1,12 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<!-- AceConfigRegistry-3.0/AceConfigDialog-3.0 are vendored here under RCLootCouncil-specific
+	     LibStub majors (see their own files) to avoid colliding with other addons' Ace3 copies.
+	     AceConfigCmd-3.0 and the AceConfig-3.0.lua umbrella are NOT loaded - RCLootCouncil never
+	     uses either (config is opened directly via AceConfigDialog:Open/SelectGroup, not via
+	     AceConfigCmd's slash-command auto-wiring), and both did an unguarded, un-renamed
+	     LibStub("AceConfigRegistry-3.0") lookup that would error now that our own copy uses a
+	     different major name. -->
+	<Include file="AceConfigRegistry-3.0\AceConfigRegistry-3.0.xml"/>
+	<Include file="AceConfigDialog-3.0\AceConfigDialog-3.0.xml"/>
+</Ui>
