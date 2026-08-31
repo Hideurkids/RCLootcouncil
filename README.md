@@ -32,9 +32,7 @@ awards the item — automatically handing it to the winner even if it's still si
 
 ![Overview](screenshots/OverviewRCLC.jpg)
 
-| Loot Frame | Voting Frame |
-|---|---|
-| _screenshot here_ | _screenshot here_ |
+![Loot Frame and Voting Frame](screenshots/LootFrame-VotingFrame.png)
 
 | Options — General | Options — Council |
 |---|---|
