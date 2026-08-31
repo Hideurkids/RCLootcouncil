@@ -36,11 +36,9 @@ awards the item — automatically handing it to the winner even if it's still si
 
 | Options — General | Options — Council |
 |---|---|
-| _screenshot here_ | _screenshot here_ |
+| ![Options General](screenshots/Options-General.png) | ![Options Council](screenshots/Options-Council.png) |
 
-| Loot History |
-|---|
-| _screenshot here_ |
+![Loot History](screenshots/History.png)
 
 ## Commands
 
