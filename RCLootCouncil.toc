@@ -1,4 +1,4 @@
-## Author: Zin
+## Author: Hideurkids
 ## Interface: 11200
 ## Notes: Interface for running a Loot Council backported to 1.12 (TurtleWoW/OctoWoW)
 ## Title: RCLootCouncil
