@@ -7,6 +7,8 @@ It lets a raid's Master Looter run **loot sessions**: candidates respond to each
 Upgrade / Small Upgrade / Off Spec / Pass), the council votes on responses, and the Master Looter
 awards the item — automatically handing it to the winner even if it's still sitting on the corpse.
 
+![Overview](screenshots/OverviewRCLC.jpg)
+
 ## Requires
 
 - [ClassicAPI](https://github.com/ClassicAPI/ClassicAPI)
@@ -29,8 +31,6 @@ awards the item — automatically handing it to the winner even if it's still si
 - **Version checking** across the raid/guild, so you know who's running an outdated copy.
 
 ## Screenshots
-
-![Overview](screenshots/OverviewRCLC.jpg)
 
 ### Voting Frame
 The Master Looter's view of a session — responses, votes, gear comparison, notes, rolls, and a
