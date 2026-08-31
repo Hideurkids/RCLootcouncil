@@ -237,8 +237,12 @@ local function _ReleaseDialog(dialog)
     _RefreshDialogAnchors()
 end
 
-local function _Dialog_OnShow()
-    local dialog = this
+-- Also called directly (with a real argument) from lib:Spawn right after a fresh dialog's first
+-- :Show() - this client gives SetScript callbacks zero real arguments, but a direct Lua call does
+-- pass one, so accept an override rather than relying on the engine's `this` global still holding
+-- the right value from whatever last fired it.
+local function _Dialog_OnShow(overrideDialog)
+    local dialog = overrideDialog or this
     local delegate = dialog.delegate
 
     _G.PlaySound("igMainMenuOpen")
@@ -1018,16 +1022,20 @@ function dialog_prototype:Resize()
     if self.icon and self.icon:IsShown() then
         local icon_width = self.icon:GetWidth() + 32
         width = width + icon_width
-        self.text:SetWidth(width - icon_width - (self.close_button:GetWidth() + 16))
+        if self.text then self.text:SetWidth(width - icon_width - (self.close_button:GetWidth() + 16)) end
     else
-        self.text:SetWidth(width - 60)
+        if self.text then self.text:SetWidth(width - 60) end
     end
     -- GetStringHeight() (not GetHeight()) - width-aware and doesn't depend on a layout pass
     -- having already run since the SetWidth() call just above, unlike the general Region:GetHeight().
     -- Confirmed live: the confirm-usage dialog's buttons overlapped its text (dialog sized too
     -- short for the wrapped text) - the first real multi-line LibDialog popup exercised this
     -- whole port, so this timing gap was never hit before now.
-    height = height + 32 + self.text:GetStringHeight()
+    -- Guarded: confirmed live "attempt to call method 'GetStringHeight' (a nil value)" - self.text
+    -- being nil here isn't fully root-caused, but crashing mid-Resize left SetWidth/SetHeight below
+    -- unreached, which is what actually produced the visible text/button overlap in the first
+    -- place (the dialog stayed at whatever stale size it had from its previous use on the heap).
+    height = height + 32 + (self.text and self.text:GetStringHeight() or 0)
 
     self:SetWidth(width)
     self:SetHeight(height)

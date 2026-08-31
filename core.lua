@@ -660,12 +660,6 @@ function RCLootCouncil:ChatCommand(msg)
 		printtable(historyDB)
 --@end-debug@
 
-	elseif input == "share" then 
-		if self.isMasterLooter then
-
-		else 
-			self:Print(L["You cannot use this command without being the Master Looter"])
-		end
 	else
 		self:ChatCommand("help")
 	end
@@ -1383,7 +1377,7 @@ function RCLootCouncil:LocalizeSubTypes()
 	-- Get the item info
 	for _, item in pairs(subTypeLookup) do
 		GameTooltip:Hide()
-		GameTooltip:SetHyperlink("item:"..item) -- force item update
+		GameTooltip:SetHyperlink(self:BuildItemLink(item)) -- force item update
 		self:GetItemInfo(item)
 	end
 	local result = {}
@@ -1708,6 +1702,17 @@ function RCLootCouncil:GetItemIDFromLink(link)
 	return tonumber(id)
 end
 
+--- Builds a full, standard-field-count item link from a bare numeric ID.
+-- A short "item:ID" link (no trailing fields) is valid input to Blizzard's own SetHyperlink, but
+-- other addons that hook GameTooltip and parse the link themselves (confirmed live: AtlasLoot's
+-- and pfUI's own tooltip hooks both threw "Unknown link type") expect the full vanilla field
+-- count (item:ID:enchant:jewel1:jewel2:jewel3:jewel4:suffixID:uniqueID, 9 fields) and choke on
+-- anything shorter. Every SetHyperlink call this addon makes from a bare ID should go through
+-- this instead of hand-rolling "item:"..id, so we never trip other addons' hooks again.
+function RCLootCouncil:BuildItemLink(itemID)
+	return "item:"..itemID..":0:0:0:0:0:0:0:0"
+end
+
 --- Custom, better UnitIsUnit() function
 -- Blizz UnitIsUnit() doesn't know how to compare unit-realm with unit
 -- Seems to be because unit-realm isn't a valid unitid
@@ -1988,7 +1993,7 @@ function RCLootCouncil:CreateHypertip(link)
 	local itemID = tonumber(link) or self:GetItemIDFromLink(link)
 	if not itemID then return end
 	GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
-	GameTooltip:SetHyperlink("item:"..itemID)
+	GameTooltip:SetHyperlink(self:BuildItemLink(itemID))
 end
 
 --- Hide the tooltip created with :CreateTooltip()

@@ -222,7 +222,6 @@ function RCOptionsFrame:BuildCouncilPanel(panel)
 			currentText:SetText((L["Current council:"] or "Current council:").." "..table.concat(council, ", "))
 		end
 	end
-	self.UpdateCurrentCouncilText = UpdateCurrentText
 
 	local function RefreshMembers()
 		for _, row in ipairs(self.memberRows) do row:Hide() end
@@ -343,7 +342,6 @@ local generalToggles = {
 }
 
 function RCOptionsFrame:BuildGeneralPanel(panel)
-	local checkboxes = {}
 	local prev
 	for _, entry in ipairs(generalToggles) do
 		local dbKey, label, tooltip = entry[1], entry[2], entry[3]
@@ -357,9 +355,7 @@ function RCOptionsFrame:BuildGeneralPanel(panel)
 		cb:SetScript("OnClick", function()
 			addon.db.profile[dbKey] = this:GetChecked() and true or false
 		end)
-		checkboxes[dbKey] = cb
 		prev = cb
 	end
-	self.generalCheckboxes = checkboxes
 end
 

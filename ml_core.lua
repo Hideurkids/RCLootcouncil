@@ -116,7 +116,11 @@ function RCLootCouncilML:AddItem(item, bagged, slotIndex, index, attempt)
 		self:ScheduleTimer("Timer", 0.5, "AddItem", item, bagged, slotIndex, index, attempt)
 		-- cache item asap - reuse the numericItemID already resolved above (bare ID takes
 		-- priority; the full link is only a fallback for whatever couldn't be parsed to an ID).
-		GameTooltip:SetHyperlink(numericItemID and ("item:"..numericItemID) or item)
+		-- Padded to the full 9-field form via addon:BuildItemLink - a bare "item:ID" link is valid
+		-- input to SetHyperlink itself, but other addons' own tooltip hooks (confirmed live:
+		-- AtlasLoot, pfUI) parse the link text themselves and throw "Unknown link type" on
+		-- anything shorter than the standard field count.
+		GameTooltip:SetHyperlink(numericItemID and addon:BuildItemLink(numericItemID) or item)
 		addon:Debug("Started timer:", "AddItem", "for", item, "attempt", attempt)
 		return
 	end
@@ -322,20 +326,23 @@ function RCLootCouncilML:StartSession()
 	-- ML seeing them correctly in its OWN local council list proves nothing about their synced
 	-- state. Re-send "council" on every session start (before "lootTable", so it's processed
 	-- first) so this self-heals every time, not just right after an explicit /rc council add.
-	-- CONFIRMED LIVE, self-inflicted regression: sending "council"+"candidates"+"lootTable" all
-	-- back-to-back with no delay corrupted the "lootTable" payload for a real recipient (Nydeh) -
-	-- it decoded as valid-but-EMPTY (lootTable[1] was nil), crashing SwitchSession(). This is
-	-- exactly the risk this codebase's OWN "reconnect" handler already knew about and guarded
-	-- against ("v2.0.1: With huge candidates/lootTable we get AceComm lostdatawarning 'First',
-	-- presumeably due to the 4kb ChatThrottleLib limit" - which is why THAT handler staggers its
-	-- candidates/lootTable sends at +1s/+4s instead of firing them together). Stagger the same way
-	-- here instead of sending all 3 simultaneously.
+	-- The 1s/4s staggering that used to be here was a band-aid applied BEFORE the real corruption
+	-- cause was found: sending "council"+"candidates"+"lootTable" back-to-back once corrupted
+	-- "lootTable" for a real recipient (Nydeh) because AceComm's OWN native multi-part splitting
+	-- (triggered for any payload over ~241 bytes) mishandles this client's addon-message prefix -
+	-- see core.lua:RawSend()/ReceiveRaw(). That's now fixed at the actual source: RawSend does its
+	-- own chunking (keyed by sender+msgID, safe to interleave with other messages) entirely
+	-- bypassing AceComm's native multi-part path, so the original reason for staggering no longer
+	-- applies - the old 1s/4s delays were just adding ~5s of dead time before the Voting/Loot
+	-- Frame could open. Send "candidates" with a tiny safety margin (in case a raid roster change
+	-- from UpdateGroup() above is still being processed) and "lootTable" right after - not the
+	-- full multi-second gaps this used to have.
 	addon:SendCommand("group", "council", self.council)
 	-- Unconditional, not left to UpdateGroup()'s own "only if something changed" gate above -
 	-- guarantees every session start gives every recipient the freshest candidate roster,
 	-- independent of whether THIS particular UpdateGroup() call happened to detect a change.
-	addon:ScheduleTimer("SendCommand", 1, "group", "candidates", self.candidates)
-	addon:ScheduleTimer("SendCommand", 4, "group", "lootTable", self.lootTable)
+	addon:ScheduleTimer("SendCommand", 0.1, "group", "candidates", self.candidates)
+	addon:ScheduleTimer("SendCommand", 0.3, "group", "lootTable", self.lootTable)
 
 	-- CONFIRMED LIVE (not just a solo-testing quirk): the ML's own client never receives its own
 	-- "lootTable"/"candidates" comm broadcasts back, in ANY distribution channel - reproduced both
