@@ -30,13 +30,30 @@ awards the item — automatically handing it to the winner even if it's still si
 
 ## Screenshots
 
+### Overview
+The Voting Frame and Loot Frame open side by side during a live session.
+
 ![Overview](screenshots/OverviewRCLC.jpg)
+
+### Voting Frame
+The Master Looter's view of a session — responses, votes, gear comparison, notes, rolls, and a
+one-click Award button per candidate.
 
 ![Voting Frame](screenshots/VotingFrame.png)
 
-| Options — General | Options — Council |
-|---|---|
+### Options — General
+Toggle the addon's core behavior: auto-open, auto-loot, auto-pass, self/multi-voting, notes, observer
+mode, and loot history logging.
+
+### Options — Council
+Pick council members straight from your guild roster — click a rank to see its members, check who
+should be on the council.
+
 | ![Options General](screenshots/Options-General.png) | ![Options Council](screenshots/Options-Council.png) |
+|---|---|
+
+### Loot History
+Every award logged with who got it, what it was, and when.
 
 ![Loot History](screenshots/History.png)
 
