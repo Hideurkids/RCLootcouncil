@@ -1,13 +1,15 @@
 # RCLootCouncil (TurtleWoW / OctoWoW)
 
-A Loot Council management addon for **TurtleWoW / OctoWoW** (the 1.12 "vanilla" API base). This is a
-port of [Potdisc's RCLootCouncil](https://www.curseforge.com/wow/addons/rclootcouncil) — by way of an
-existing WotLK 3.3.5a backport — down to the 1.12 client, with a number of Lua 5.0-compatibility fixes,
-client-specific workarounds, a reworked comm layer, and a few extra features layered on top.
+A backport of [Potdisc's RCLootCouncil](https://www.curseforge.com/wow/addons/rclootcouncil) to the
+1.12 client for **OctoWoW**.
 
 It lets a raid's Master Looter run **loot sessions**: candidates respond to each item (BiS / Big
 Upgrade / Small Upgrade / Off Spec / Pass), the council votes on responses, and the Master Looter
 awards the item — automatically handing it to the winner even if it's still sitting on the corpse.
+
+## Requires
+
+- [ClassicAPI](https://github.com/ClassicAPI/ClassicAPI)
 
 ## Features
 
@@ -28,11 +30,19 @@ awards the item — automatically handing it to the winner even if it's still si
 
 ## Screenshots
 
-> _Add screenshots here — e.g. `![Voting Frame](screenshots/voting-frame.png)`_
+![Overview](screenshots/OverviewRCLC.jpg)
 
-| Loot Frame | Voting Frame | Options |
-|---|---|---|
-| _screenshot here_ | _screenshot here_ | _screenshot here_ |
+| Loot Frame | Voting Frame |
+|---|---|
+| _screenshot here_ | _screenshot here_ |
+
+| Options — General | Options — Council |
+|---|---|
+| _screenshot here_ | _screenshot here_ |
+
+| Loot History |
+|---|
+| _screenshot here_ |
 
 ## Commands
 
@@ -64,16 +74,6 @@ All commands are `/rc <command>` (or `/rclc <command>`).
    `Interface\AddOns\RCLootCouncil\`.
 3. Make sure the folder is named exactly `RCLootCouncil` (matching the `.toc` file inside it).
 4. Restart the client (or `/reload`) and enable the addon at the character-select screen.
-
-## Dependencies
-
-Everything the addon needs is **vendored inside `Libs\`** — nothing extra to install. That includes a
-1.12-compatible subset of Ace3 (LibStub, CallbackHandler-1.0, AceAddon/AceComm/AceEvent/AceTimer/
-AceDB/AceConsole/AceGUI/AceConfig-3.0/AceSerializer), `LibDeflate`, `lib-st` (scrolling tables),
-`LibWindow-1.1`, `LibDialog-1.0`, and a custom `Lib_UIDropDownMenu`.
-
-**Optional:** [ClassicAPI](https://github.com/ClassicAPI/ClassicAPI) — if installed, item data
-resolves faster (no functional requirement, just a nicer experience).
 
 ## Compatibility notes
 
