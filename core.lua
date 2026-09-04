@@ -1704,9 +1704,9 @@ end
 
 --- Builds a full, standard-field-count item link from a bare numeric ID.
 -- A short "item:ID" link (no trailing fields) is valid input to Blizzard's own SetHyperlink, but
--- other addons that hook GameTooltip and parse the link themselves (confirmed live: AtlasLoot's
--- and pfUI's own tooltip hooks both threw "Unknown link type") expect the full vanilla field
--- count (item:ID:enchant:jewel1:jewel2:jewel3:jewel4:suffixID:uniqueID, 9 fields) and choke on
+-- other addons that hook GameTooltip and parse the link themselves (confirmed live: at least two
+-- other installed addons' own tooltip hooks both threw "Unknown link type") expect the full
+-- vanilla field count (item:ID:enchant:jewel1:jewel2:jewel3:jewel4:suffixID:uniqueID, 9 fields) and choke on
 -- anything shorter. Every SetHyperlink call this addon makes from a bare ID should go through
 -- this instead of hand-rolling "item:"..id, so we never trip other addons' hooks again.
 function RCLootCouncil:BuildItemLink(itemID)
@@ -1878,9 +1878,9 @@ function RCLootCouncil:CreateFrame(name, cName, title, width, height)
 
 	local Skin = self.UISkin
 	local tf = CreateFrame("Frame", nil, f)
-	-- Flat dark theme (Modules\uiSkin.lua) instead of the old gold ChatFrameBackground look,
-	-- so this window matches Questie/Holyward - shared by every RCLootCouncil:CreateFrame() caller
-	-- (Loot/Voting/Session/History/VersionCheck frames).
+	-- Flat dark theme (Modules\uiSkin.lua) instead of the old gold ChatFrameBackground look -
+	-- shared by every RCLootCouncil:CreateFrame() caller (Loot/Voting/Session/History/
+	-- VersionCheck frames).
 	tf:SetBackdrop(Skin.FLAT_BACKDROP)
 	tf:SetBackdropColor(Skin.TITLEBAR_BG[1], Skin.TITLEBAR_BG[2], Skin.TITLEBAR_BG[3], Skin.TITLEBAR_BG[4])
 	tf:SetBackdropBorderColor(Skin.PANEL_BORDER[1], Skin.PANEL_BORDER[2], Skin.PANEL_BORDER[3], Skin.PANEL_BORDER[4])
@@ -1963,8 +1963,8 @@ end
 -- @return The button object
 function RCLootCouncil:CreateButton(text, parent)
 	-- Delegates to the shared dark-theme skin (Modules\uiSkin.lua) instead of
-	-- UIPanelButtonTemplate's gold Blizzard look, so every window built with this button
-	-- (Loot/Voting/Session/History/VersionCheck frames) matches Questie/Holyward's look.
+	-- UIPanelButtonTemplate's gold Blizzard look, for every window built with this button
+	-- (Loot/Voting/Session/History/VersionCheck frames).
 	-- Same 100x25 default size as before so existing SetPoint layouts don't shift.
 	return self.UISkin.CreateButton(parent, text, 100, 25)
 end
@@ -2014,9 +2014,9 @@ end
 -- omitted entirely) - every field after it silently shifts left by one. Observed live: subType
 -- held iStackCount's value ("1"), and a full TEXTURE PATH ended up in equipLoc. This isn't just a
 -- missing icon - it corrupts equipLoc/subType with completely wrong values, silently (no error).
--- C_Item.GetItemInfo (ClassicAPI) returns the correct, full 10-field shape (confirmed against
--- pfUI's own usage of it) - prefer it everywhere addon code calls GetItemInfo, falling back to
--- the bare (field-shifted) global only when ClassicAPI isn't installed.
+-- C_Item.GetItemInfo (ClassicAPI) returns the correct, full 10-field shape - prefer it everywhere
+-- addon code calls GetItemInfo, falling back to the bare (field-shifted) global only when
+-- ClassicAPI isn't installed.
 function RCLootCouncil:GetItemInfo(item)
 	local getItemInfo = (_G.C_Item and _G.C_Item.GetItemInfo) or GetItemInfo
 	return getItemInfo(item)

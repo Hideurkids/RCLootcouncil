@@ -7,7 +7,7 @@
 --
 -- :IterateOptionsTables() (and :GetOptionsTable() if only given one argument) return a function reference that the requesting config handling addon must call with valid "uiType", "uiName".
 -- @class file
--- @name Serenity-AceConfigRegistry-3.0
+-- @name RCLootCouncil-AceConfigRegistry-3.0
 -- @release $Id: AceConfigRegistry-3.0.lua 1139 2016-07-03 07:43:51Z nevcairiel $
 local MAJOR, MINOR = "RCLootCouncil-AceConfigRegistry-3.0", 16
 local AceConfigRegistry = LibStub:NewLibrary(MAJOR, MINOR)

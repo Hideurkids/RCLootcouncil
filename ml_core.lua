@@ -117,9 +117,9 @@ function RCLootCouncilML:AddItem(item, bagged, slotIndex, index, attempt)
 		-- cache item asap - reuse the numericItemID already resolved above (bare ID takes
 		-- priority; the full link is only a fallback for whatever couldn't be parsed to an ID).
 		-- Padded to the full 9-field form via addon:BuildItemLink - a bare "item:ID" link is valid
-		-- input to SetHyperlink itself, but other addons' own tooltip hooks (confirmed live:
-		-- AtlasLoot, pfUI) parse the link text themselves and throw "Unknown link type" on
-		-- anything shorter than the standard field count.
+		-- input to SetHyperlink itself, but other installed addons' own tooltip hooks (confirmed
+		-- live) parse the link text themselves and throw "Unknown link type" on anything shorter
+		-- than the standard field count.
 		GameTooltip:SetHyperlink(numericItemID and addon:BuildItemLink(numericItemID) or item)
 		addon:Debug("Started timer:", "AddItem", "for", item, "attempt", attempt)
 		return
@@ -148,9 +148,9 @@ function RCLootCouncilML:AddItem(item, bagged, slotIndex, index, attempt)
 		-- shown as literal text instead of the item's name/color, e.g. via /rc test).
 		-- CONFIRMED LIVE: GetItemInfo's own link only has 4 numeric fields ("item:ID:0:0:0") -
 		-- a real vanilla item link has 9 (item:ID:enchant:jewel1:jewel2:jewel3:jewel4:suffixID:
-		-- uniqueID). Other addons that hook GameTooltip and parse hyperlinks themselves (e.g.
-		-- AtlasLoot's tooltip hook - confirmed live: "Unknown link type" errors appearing
-		-- whenever hovering an item using this short link) choke on the too-short field count.
+		-- uniqueID). Other installed addons that hook GameTooltip and parse hyperlinks themselves
+		-- (confirmed live: "Unknown link type" errors appearing whenever hovering an item using
+		-- this short link) choke on the too-short field count.
 		-- Pad it out to the full, standard field count so any addon parsing our tooltip's link
 		-- sees something well-formed.
 		local linkItemID = tonumber(select(3, string.find(link, "item:(%d+)"))) or numericItemID

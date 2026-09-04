@@ -1,6 +1,6 @@
--- optionsFrame.lua - Custom tabbed settings window (Council now, more tabs later), styled to
--- match Holyward/Questie-Octo's dark theme via the shared Modules\uiSkin.lua primitives instead
--- of plain default-Blizzard-look widgets.
+-- optionsFrame.lua - Custom tabbed settings window (Council now, more tabs later), styled with
+-- a flat dark theme via the shared Modules\uiSkin.lua primitives instead of plain
+-- default-Blizzard-look widgets.
 --
 -- Built as a plain CreateFrame-based window - NOT AceGUI/AceConfigDialog. AceConfigDialog's
 -- standalone "Frame" widget never registers on this client (no error, just silently absent - see
@@ -69,8 +69,8 @@ function RCOptionsFrame:GetFrame()
 	-- NOT L["config"] - that's the /rc config CHAT COMMAND keyword (an AceLocale "= true" entry,
 	-- i.e. literally the lowercase string "config"), confirmed live to show up as the window's
 	-- title bar text ("config") instead of a proper title like every other window has.
-	-- Wider/taller than before ("como la de Questie" per user request) - 300 was cramped enough
-	-- that the tab strip and the first panel's own content visually crowded each other.
+	-- Wider/taller than before per user request - 300 was cramped enough that the tab strip and
+	-- the first panel's own content visually crowded each other.
 	local f = Skin.CreateWindow("RCLootCouncil_OptionsFrame", L["RCLootCouncil Options"] or "RCLootCouncil Options", WINDOW_W, WINDOW_H)
 
 	local tabLabels = {

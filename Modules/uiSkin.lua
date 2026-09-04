@@ -1,10 +1,10 @@
 -- uiSkin.lua - Shared dark-theme skinning primitives for RCLootCouncil's own hand-built windows.
 --
--- Self-contained (does not depend on pfUI or any other addon being installed) recreation of the
--- flat, minimal dark look pfUI/ShaguTweaks-style addons use: a single-pixel WHITE8X8 texture as
--- both backdrop and edge, tinted with plain colors, instead of Blizzard's ornate gold DialogBox
--- artwork. This is the "base" all of RCLootCouncil's own custom windows should build on (options/
--- council now, session/loot/voting frames later) so they look consistent with each other.
+-- Self-contained (does not depend on any other addon being installed) recreation of a flat,
+-- minimal dark look: a single-pixel WHITE8X8 texture as both backdrop and edge, tinted with
+-- plain colors, instead of Blizzard's ornate gold DialogBox artwork. This is the "base" all of
+-- RCLootCouncil's own custom windows should build on (options/council now, session/loot/voting
+-- frames later) so they look consistent with each other.
 
 local addon = LibStub("AceAddon-3.0"):GetAddon("RCLootCouncil")
 
@@ -124,7 +124,7 @@ end
 
 --- Full draggable window shell: dark panel + title bar + close button + a `.content` frame for
 -- callers to build inside. Deliberately separate from RCLootCouncil:CreateFrame() (core.lua),
--- which uses the old gold DialogBox Blizzard look - this is the new, Questie/Holyward-styled base.
+-- which uses the old gold DialogBox Blizzard look - this is the new, flat dark-themed base.
 function Skin.CreateWindow(name, title, width, height)
 	local f = CreateFrame("Frame", name, UIParent)
 	f:SetWidth(width or 320)
